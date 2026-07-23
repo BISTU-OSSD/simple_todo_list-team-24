@@ -11,6 +11,10 @@
             margin: 50px auto;
             padding: 0 20px;
         }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
         .input-area {
             display: flex;
             gap: 10px;
@@ -18,19 +22,43 @@
         }
         #todo-input {
             flex: 1;
-            padding: 8px;
+            padding: 10px;
             font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
         #add-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             cursor: pointer;
+            background-color: #409eff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        #add-btn:hover {
+            background-color: #66b1ff;
         }
         .todo-item {
-            padding: 10px;
+            padding: 12px;
             border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .delete-btn {
+            margin-left: auto;
+            color: #f56c6c;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 14px;
+        }
+        .delete-btn:hover {
+            color: #f78989;
         }
     </style>
 </head>
@@ -48,12 +76,34 @@
         const list = document.getElementById('todo-list');
 
         function addTodo() {
-            const text = input.value;
+            const text = input.value.trim();
+            // 空值校验
+            if (!text) {
+                input.focus();
+                return;
+            }
+
             const item = document.createElement('div');
             item.className = 'todo-item';
-            item.innerHTML = `<span>${text}</span>`;
+            item.innerHTML = `
+                <input type="checkbox" class="check-box">
+                <span>${text}</span>
+                <button class="delete-btn">删除</button>
+            `;
+
+            const checkbox = item.querySelector('.check-box');
+            checkbox.addEventListener('change', () => {
+                item.classList.toggle('completed');
+            });
+
+            const delBtn = item.querySelector('.delete-btn');
+            delBtn.addEventListener('click', () => {
+                item.remove();
+            });
+
             list.appendChild(item);
             input.value = '';
+            input.focus();
         }
 
         addBtn.addEventListener('click', addTodo);
