@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易待办清单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #todo-input {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+        }
+        #add-btn {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .todo-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>待办清单</h1>
+    <div class="input-area">
+        <input type="text" id="todo-input" placeholder="输入待办事项...">
+        <button id="add-btn">添加</button>
+    </div>
+    <div id="todo-list"></div>
+
+    <script>
+        const input = document.getElementById('todo-input');
+        const addBtn = document.getElementById('add-btn');
+        const list = document.getElementById('todo-list');
+
+        function addTodo() {
+            const text = input.value;
+            const item = document.createElement('div');
+            item.className = 'todo-item';
+            item.innerHTML = `<span>${text}</span>`;
+            list.appendChild(item);
+            input.value = '';
+        }
+
+        addBtn.addEventListener('click', addTodo);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+    </script>
+</body>
+</html>
